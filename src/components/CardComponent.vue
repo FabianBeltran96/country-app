@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from 'vue';
 
 const props = defineProps({
     country: {
@@ -14,10 +13,10 @@ const props = defineProps({
     <div class="card">
         <img class="photo" src="" alt="">
         <div class="footer-card">
-            <img class='flag' src="" alt="">
+            <img class='flag' :src="'https://flagsapi.com/' + props.country.code + '/flat/64.png'" alt="">
             <div class="details">
-                <p>{{ props.country.name }}</p>
-                <p>{{ props.country.continent.name }}</p>
+                <p class="country">{{ props.country.name }}</p>
+                <p class="continent">{{ props.country.continent.name }}</p>
             </div>
         </div>
     </div>
@@ -30,37 +29,56 @@ const props = defineProps({
 
 .card {
     width: 300px;
-    height: 200px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+    margin: 8px;
+    border-radius: 32px;
+    overflow: hidden;
 }
 
-.card .photo {
+.photo {
     width: 100%;
     height: 200px;
 }
 
 .footer-card {
+    width: 100%;
+    height: 100px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-
+    background-color: white;
 }
 
 .footer-card .flag {
-    width: 20px;
-    height: 20px;
+    width: 48px ;
+    height: 48px ;
 }
 
 .details {
-    margin: 12px;
     display: flex;
+    width: 50%;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+}
+
+.details p {
+    margin: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.country {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.continent {
+    font-size: 12px;
 }
 </style>

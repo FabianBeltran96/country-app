@@ -15,8 +15,10 @@ import SidebarComponent from '@/components/SidebarComponent.vue'
 }
 
 body {
+  height: 100%;
   margin: 0px;
   padding: 0px;
+  overflow: hidden;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
 }

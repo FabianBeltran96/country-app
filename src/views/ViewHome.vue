@@ -1,17 +1,17 @@
 <script setup>
 import CardComponent from '@/components/CardComponent.vue';
-import { ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
 const { result , loading, error} = useQuery(gql`
     query {
-    countries {
-        name
-        continent{
-        name
+        countries {
+            name
+            continent{
+                name
+            }
+            code
         }
-    }
     }
 `)
 
@@ -37,7 +37,7 @@ const { result , loading, error} = useQuery(gql`
             </section>
         </header>
         <main>
-            <div v-for="(country, index) in result.countries" :key="index">
+            <div class="cards-container" v-for="(country, index) in result.countries" :key="index">
                 <CardComponent :country=country />
             </div>
         </main>
@@ -52,6 +52,7 @@ const { result , loading, error} = useQuery(gql`
 .container {
     width: 100%;
     height: 100vh;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -133,4 +134,15 @@ input {
 .search button span {
     margin: 0 0 0 12px;
 }
+
+main{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
 </style>

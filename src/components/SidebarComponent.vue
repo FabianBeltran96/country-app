@@ -34,24 +34,28 @@
 
 ul{
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
-li {
-  list-style-type: none;
+a{
+  /* list-style-type: none; */
+  text-decoration: none;
   width: 80%;
   color: white;
-  margin: 8px;
+  margin: 16px;
   padding: 8px;
   border-radius: 5px;
 }
 
-li:hover {
+a:hover {
   background-color: white;
   color: rgb(135, 135, 135);
 }
 
 a {
-  text-decoration: none;
   color: white;
 }
 </style>
