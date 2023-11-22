@@ -4,7 +4,6 @@
 // const props = defineProps({
 //   msg: String
 // })
-
 </script>
 
 <template>
@@ -17,7 +16,5 @@
 .container {
   width: 100%;
   height: 100%;
-
-
 }
 </style>

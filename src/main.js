@@ -5,22 +5,22 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core
 import { DefaultApolloClient } from '@vue/apollo-composable'
 
 const httpLink = createHttpLink({
-  uri: 'https://countries.trevorblades.com/',
+  uri: 'https://countries.trevorblades.com/'
 })
 
 const cache = new InMemoryCache()
 
 const apolloClient = new ApolloClient({
   link: httpLink,
-  cache,
+  cache
 })
 
 const app = createApp({
-  setup () {
+  setup() {
     provide(DefaultApolloClient, apolloClient)
   },
 
-  render: () => h(App),
+  render: () => h(App)
 })
 app.use(router)
 

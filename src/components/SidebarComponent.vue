@@ -4,7 +4,6 @@
 // const props = defineProps({
 //   msg: String
 // })
-
 </script>
 
 <template>
@@ -32,7 +31,7 @@
   font-size: 24px;
 }
 
-ul{
+ul {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -40,7 +39,7 @@ ul{
   align-items: flex-start;
 }
 
-a{
+a {
   /* list-style-type: none; */
   text-decoration: none;
   width: 80%;

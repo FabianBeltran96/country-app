@@ -1,20 +1,22 @@
 <script setup>
-import CardComponent from '@/components/CardComponent.vue';
+import CardComponent from '@/components/CardComponent.vue'
+import { ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
-const { result , loading, error} = useQuery(gql`
-    query {
-        countries {
-            name
-            continent{
-                name
-            }
-            code
-        }
+const { result, loading, error } = useQuery(gql`
+  query {
+    countries {
+      name
+      continent {
+        name
+      }
+      code
     }
+  }
 `)
 
+const checkedContinent = ref([])
 </script>
 
 <template>
@@ -28,18 +30,48 @@ const { result , loading, error} = useQuery(gql`
                 <div class="search">
                     <button>
                         <img src="../assets/search.svg" />
-                        <span>
-                            Buscar
-                        </span>
+                        <span> Buscar </span>
                     </button>
-
                 </div>
             </section>
         </header>
-        <main>
-            <div class="cards-container" v-for="(country, index) in result.countries" :key="index">
-                <CardComponent :country=country />
+        <nav>
+            <div class="continent-checkbox">
+                <label for="africa">Africa</label>
+                <input id="africa" value="AF" v-model="checkedContinent" type="checkbox" />
             </div>
+            <div class="continent-checkbox">
+                <label for="antartica">Antarctica</label>
+                <input id="antartica" value="AN" v-model="checkedContinent" type="checkbox" />
+            </div>
+            <div class="continent-checkbox">
+                <label for="asia">Asia</label>
+                <input id="asia" value="AS" v-model="checkedContinent" type="checkbox" />
+            </div>
+            <div class="continent-checkbox">
+                <label for="europe">Europe</label>
+                <input id="europe" value="EU" v-model="checkedContinent" type="checkbox" />
+            </div>
+            <div class="continent-checkbox">
+                <label for="nortAmerica">North America</label>
+                <input id="nortAmerica" value="NA" v-model="checkedContinent" type="checkbox" />
+            </div>
+            <div class="continent-checkbox">
+                <label for="oceania">Oceania</label>
+                <input id="oceania" value="OC" v-model="checkedContinent" type="checkbox" />
+            </div>
+            <div class="continent-checkbox">
+                <label for="southAmerica">South America</label>
+                <input id="southAmerica" value="SA" v-model="checkedContinent" type="checkbox" />
+            </div>
+        </nav>
+        <main v-if="!loading">
+            <div class="cards-container" v-for="(country, index) in result.countries" :key="index">
+                <CardComponent :country="country" />
+            </div>
+        </main>
+        <main v-else>
+            <h1>Cargando...</h1>
         </main>
     </div>
 </template>
@@ -57,7 +89,7 @@ const { result , loading, error} = useQuery(gql`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    background-color: #E3F4FE;
+    background-color: #e3f4fe;
 }
 
 header {
@@ -88,7 +120,7 @@ section {
     align-items: flex-start;
 }
 
-label {
+.input label {
     font-size: 24px;
     font-weight: bold;
     margin: 0 0 0 3px;
@@ -101,6 +133,29 @@ input {
     box-sizing: border-box;
     border: 1px solid white;
     border-radius: 4px;
+}
+
+nav {
+    max-width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    flex-wrap: wrap;
+}
+
+.continent-checkbox {
+    width: 100px;
+    display: flex;
+    flex-wrap: no-wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 12px;
+    font-size: 12px;
+    background-color: white;
+    border-radius: 24px;
+    padding: 12px;
+    margin: 4px;
 }
 
 .search {
@@ -118,7 +173,7 @@ input {
 }
 
 .search button {
-    background-color: #039BFF;
+    background-color: #039bff;
     color: white;
     border: none;
     border-radius: 24px;
@@ -135,7 +190,7 @@ input {
     margin: 0 0 0 12px;
 }
 
-main{
+main {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -144,5 +199,7 @@ main{
     align-items: center;
 }
 
-
+.search button span {
+    margin: 0 0 0 12px;
+}
 </style>

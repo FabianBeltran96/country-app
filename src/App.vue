@@ -30,12 +30,11 @@ body {
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr 2fr;
   grid-template-areas:
-    "sidebar main"
-    "sidebar main"
+    'sidebar main'
+    'sidebar main';
 }
 
 #sidebar {
   grid-area: sidebar;
 }
 </style>
-
