@@ -1,38 +1,125 @@
 <script setup>
-import SidebarComponent from '@/components/SidebarComponent.vue'
-import HeaderComponent from '@/components/HeaderComponent.vue'
-import MainComponent from '@/components/MainComponent.vue'
+import CardComponent from '@/components/CardComponent.vue';
+// import { defineProps } from 'vue';
+
+// const props = defineProps({
+//   msg: String
+// })
+
 </script>
 
 <template>
-    <div id="home">
-        <SidebarComponent id="sidebar" msg="Welcome to Your Vue.js App" />
-        <HeaderComponent id="header" msg="Welcome to Your Vue.js App" />
-        <MainComponent id="main" msg="Welcome to Your Vue.js App" />
+    <div class="container">
+        <header>
+            <section>
+                <div class="input">
+                    <label for="country">Pais</label>
+                    <input type="text" id="country" name="country" placeholder="Escribe el pais" />
+                </div>
+                <div class="search">
+                    <button>
+                        <img src="../assets/search.svg" />
+                        <span>
+                            Buscar
+                        </span>
+                    </button>
+
+                </div>
+            </section>
+        </header>
+        <main>
+            <CardComponent />
+        </main>
     </div>
 </template>
 
 <style scoped>
-#home {
-    width: 100vw;
+* {
+    /* border: 1px solid red; */
+}
+
+.container {
+    width: 100%;
     height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 3fr;
-    grid-template-areas:
-        "sidebar header"
-        "sidebar main"
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #E3F4FE;
 }
 
-#sidebar {
-    grid-area: sidebar;
+header {
+    width: 100%;
+    margin: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#header {
-    grid-area: header;
+section {
+    width: 80%;
+    padding: 12px;
+    border-radius: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.4);
 }
 
-#main {
-    grid-area: main;
+.input {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+label {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 0 3px;
+    color: #787878;
+}
+
+/* unstyled input */
+input {
+    width: 50%;
+    box-sizing: border-box;
+    border: 1px solid white;
+    border-radius: 4px;
+}
+
+.search {
+    width: 50%;
+    margin: 0 12px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.search img {
+    filter: invert(100%);
+    width: 24px;
+    height: 24px;
+}
+
+.search button {
+    background-color: #039BFF;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.search button span {
+    margin: 0 0 0 12px;
 }
 </style>

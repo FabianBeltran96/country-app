@@ -5,7 +5,6 @@
 //   msg: String
 // })
 
-console.log('hello script setup')
 </script>
 
 <template>
@@ -32,6 +31,7 @@ console.log('hello script setup')
   background-color: #ababab;
   font-size: 24px;
 }
+
 ul{
   width: 100%;
 }

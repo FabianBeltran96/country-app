@@ -1,5 +1,4 @@
 <script setup>
-console.log('ViewTwo.vue')
 </script>
 <template>
     <div id="two">

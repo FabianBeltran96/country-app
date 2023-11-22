@@ -1,5 +1,4 @@
 <script setup>
-console.log('Viewone.vue')
 </script>
 <template>
     <div id="one">
