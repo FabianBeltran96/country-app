@@ -1,9 +1,12 @@
 <script setup>
-// import { defineProps } from 'vue';
+import { defineProps } from 'vue';
 
-// const props = defineProps({
-//   msg: String
-// })
+const props = defineProps({
+    country: {
+        type: Object,
+        required: true
+    }
+})
 
 </script>
 
@@ -13,8 +16,8 @@
         <div class="footer-card">
             <img class='flag' src="" alt="">
             <div class="details">
-                <p>Pais</p>
-                <p>Continente</p>
+                <p>{{ props.country.name }}</p>
+                <p>{{ props.country.continent.name }}</p>
             </div>
         </div>
     </div>

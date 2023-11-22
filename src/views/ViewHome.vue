@@ -1,10 +1,19 @@
 <script setup>
 import CardComponent from '@/components/CardComponent.vue';
-// import { defineProps } from 'vue';
+import { ref } from 'vue'
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
 
-// const props = defineProps({
-//   msg: String
-// })
+const { result , loading, error} = useQuery(gql`
+    query {
+    countries {
+        name
+        continent{
+        name
+        }
+    }
+    }
+`)
 
 </script>
 
@@ -28,7 +37,9 @@ import CardComponent from '@/components/CardComponent.vue';
             </section>
         </header>
         <main>
-            <CardComponent />
+            <div v-for="(country, index) in result.countries" :key="index">
+                <CardComponent :country=country />
+            </div>
         </main>
     </div>
 </template>
