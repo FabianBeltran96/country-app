@@ -62,6 +62,7 @@ const {
   `,
   () => ({ continentFilter: nameCountry.value })
 )
+
 const getCountryByContinent = computed(() => {
   if (checkedContinent.value.length === 0 && nameCountry.value.length === 0) {
     return result.value.countries

@@ -37,4 +37,18 @@ body {
 #sidebar {
   grid-area: sidebar;
 }
+
+@media (max-width: 768px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+      'sidebar '
+      'main ';
+  }
+
+  #sidebar {
+    grid-area: sidebar;
+  }
+}
 </style>

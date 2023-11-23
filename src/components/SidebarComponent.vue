@@ -57,4 +57,14 @@ a:hover {
 a {
   color: white;
 }
+
+@media (max-width: 768px) {
+  ul {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
 </style>
