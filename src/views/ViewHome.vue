@@ -1,5 +1,6 @@
 <script setup>
 import CardComponent from '@/components/CardComponent.vue'
+import InfoComponent from '@/components/InfoComponent.vue'
 import { ref, computed } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
@@ -22,6 +23,8 @@ function getCountries() {
 const { result, loading, error } = getCountries()
 
 const checkedContinent = ref([])
+const openInfoCard = ref(false)
+const nameCountry = ref('')
 
 const {
   result: resultByContinent,
@@ -41,14 +44,43 @@ const {
   `,
   () => ({ continentFilter: checkedContinent.value })
 )
-
+const {
+  result: resultByName,
+  loading: loadingByName,
+  error: errorByName
+} = useQuery(
+  gql`
+    query ListCountriesByContinent($continentFilter: String) {
+      countries(filter: { name: { regex: $continentFilter } }) {
+        code
+        name
+        continent {
+          name
+        }
+      }
+    }
+  `,
+  () => ({ continentFilter: nameCountry.value })
+)
 const getCountryByContinent = computed(() => {
-  if (checkedContinent.value.length === 0) {
+  if (checkedContinent.value.length === 0 && nameCountry.value.length === 0) {
     return result.value.countries
-  } else {
+  } else if (checkedContinent.value.length !== 0 && nameCountry.value.length === 0) {
     return resultByContinent.value.countries
+  } else if (checkedContinent.value.length === 0 && nameCountry.value.length !== 0) {
+    return resultByName.value.countries
+  } else {
+    const countriesByName = new Set(resultByName.value.countries.map((country) => country.code))
+    return resultByContinent.value.countries.filter((country) => countriesByName.has(country.code))
   }
 })
+
+const selectedCountry = ref({})
+
+function openInfoCardFunction(country) {
+  selectedCountry.value = country.code
+  openInfoCard.value = !openInfoCard.value
+}
 </script>
 
 <template>
@@ -57,7 +89,13 @@ const getCountryByContinent = computed(() => {
       <section>
         <div class="input">
           <label for="country">Pais</label>
-          <input type="text" id="country" name="country" placeholder="Escribe el pais" />
+          <input
+            type="text"
+            v-model="nameCountry"
+            id="country"
+            name="country"
+            placeholder="Escribe el pais"
+          />
         </div>
         <div class="search">
           <button>
@@ -98,9 +136,12 @@ const getCountryByContinent = computed(() => {
       </div>
     </nav>
     <main v-if="!loading && !loadingByContinent">
-      <div class="cards-container" v-for="(country, index) in getCountryByContinent" :key="index">
-        <CardComponent :country="country" />
+      <div class="cards-container">
+        <div v-for="(country, index) in getCountryByContinent" :key="index">
+          <CardComponent :country="country" @click="openInfoCardFunction(country)" />
+        </div>
       </div>
+      <InfoComponent v-if="openInfoCard" :country="selectedCountry" />
     </main>
     <main v-else>
       <h1>Cargando...</h1>
@@ -226,12 +267,19 @@ main {
   width: 100%;
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: stretch;
+  flex-direction: row;
+}
+
+.cards-container {
+  width: 150%;
+  display: flex;
+  flex-direction: columns;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-}
-
-.search button span {
-  margin: 0 0 0 12px;
 }
 </style>

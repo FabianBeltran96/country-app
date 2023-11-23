@@ -11,7 +11,11 @@ const props = defineProps({
   <div class="card">
     <img class="photo" src="" alt="" />
     <div class="footer-card">
-      <!-- <img class="flag" :src="'https://flagsapi.com/' + props.country.code + '/flat/64.png'" alt="" /> -->
+      <img
+        class="flag"
+        :src="'https://flagsapi.com/' + props.country.code + '/flat/64.png'"
+        alt=""
+      />
       <div class="details">
         <p class="country">{{ props.country.name }}</p>
         <p class="continent">{{ props.country.continent.name }}</p>
