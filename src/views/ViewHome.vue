@@ -28,7 +28,7 @@ const openInfoCard = ref(false)
 const nameCountry = ref('')
 
 const currentPage = ref(1)
-const itemsPerPage = ref(10)
+const itemsPerPage = ref(5)
 
 const {
   result: resultByContinent,
@@ -68,24 +68,24 @@ const {
 )
 
 const getCountryByContinent = computed(() => {
-  return [result.value.countries[0]]
-  // if (checkedContinent.value.length === 0 && nameCountry.value.length === 0) {
-  //   return result.value.countries
-  // } else if (checkedContinent.value.length !== 0 && nameCountry.value.length === 0) {
-  //   return resultByContinent.value.countries
-  // } else if (checkedContinent.value.length === 0 && nameCountry.value.length !== 0) {
-  //   return resultByName.value.countries
-  // } else {
-  //   const countriesByName = new Set(resultByName.value.countries.map((country) => country.code))
-  //   return resultByContinent.value.countries.filter((country) => countriesByName.has(country.code))
-  // }
+  currentPage.value = 1
+  itemsPerPage.value = 5
+  if (checkedContinent.value.length === 0 && nameCountry.value.length === 0) {
+    return result.value.countries
+  } else if (checkedContinent.value.length !== 0 && nameCountry.value.length === 0) {
+    return resultByContinent.value.countries
+  } else if (checkedContinent.value.length === 0 && nameCountry.value.length !== 0) {
+    return resultByName.value.countries
+  } else {
+    const countriesByName = new Set(resultByName.value.countries.map((country) => country.code))
+    return resultByContinent.value.countries.filter((country) => countriesByName.has(country.code))
+  }
 })
-
 
 const displayedCountries = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value
   const end = start + itemsPerPage.value
-  return result.value.countries.slice(start, end)
+  return getCountryByContinent.value.slice(start, end)
 })
 
 const selectedCountry = ref({})
@@ -103,7 +103,7 @@ function changePage(delta) {
 }
 
 const totalPages = computed(() => {
-  return Math.ceil(result.value.countries.length / itemsPerPage.value)
+  return Math.ceil(getCountryByContinent.value.length / itemsPerPage.value)
 })
 </script>
 
@@ -123,7 +123,6 @@ const totalPages = computed(() => {
         </div>
       </section>
     </header>
-
     <nav>
       <div class="continent-checkbox">
         <label for="africa">Africa</label>

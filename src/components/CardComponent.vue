@@ -9,15 +9,28 @@ const props = defineProps({
   }
 })
 
-console.log(props);
 const photo = ref('')
+// TODO: get photo from unsplash or pixibay
 
-// call a pixabay api to get a image of the country with rest api and axios
+// axios.get('https://api.unsplash.com/photos/?client_id=F3-kLjvqABHiw4_ySy-VzaAN4OH5mEBkrXcb3F74nbI&query=' + props.country.name + '_cities')
+//   .then(function (response) {
+//     // handle success
+//     console.log(response.data[0].urls.raw);
+//     photo.src = response.data[0].urls.raw
+
+//   })
+//   .catch(function (error) {
+//     // handle error
+//     console.log(error);
+//   })
+//   .finally(function () {
+//     // always executed
+//   });
+
 // axios.get('https://pixibay.com/api/?key=40852554-ec8f5e5ea22e521a184773e6a&q=' + props.country.name + '_cities&image_type=photo')
 //   .then(function (response) {
 //     // handle success
 //     console.log(response.data.hits[0].largeImageURL);
-//     const photo = document.querySelector('.photo')
 //     photo.src = response.data.hits[0].largeImageURL
 
 //   })
