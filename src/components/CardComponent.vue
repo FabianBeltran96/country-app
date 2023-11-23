@@ -26,14 +26,14 @@ const props = defineProps({
 }
 
 .card {
-  width: 300px;
+  width: 250px;
   height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
-  margin: 8px;
+  margin: 24px;
   border-radius: 32px;
   overflow: hidden;
 }
