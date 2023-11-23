@@ -1,21 +1,42 @@
 <script setup>
+import { ref } from 'vue'
+import axios from 'axios'
+
 const props = defineProps({
   country: {
     type: Object,
     required: true
   }
 })
+
+console.log(props);
+const photo = ref('')
+
+// call a pixabay api to get a image of the country with rest api and axios
+// axios.get('https://pixibay.com/api/?key=40852554-ec8f5e5ea22e521a184773e6a&q=' + props.country.name + '_cities&image_type=photo')
+//   .then(function (response) {
+//     // handle success
+//     console.log(response.data.hits[0].largeImageURL);
+//     const photo = document.querySelector('.photo')
+//     photo.src = response.data.hits[0].largeImageURL
+
+//   })
+//   .catch(function (error) {
+//     // handle error
+//     console.log(error);
+//   })
+//   .finally(function () {
+//     // always executed
+//   });
+
 </script>
 
 <template>
   <div class="card">
-    <img class="photo" src="" alt="" />
+    <!-- <img class="photo" :src="photo.src" alt="" /> -->
+    <img src="https://random.imagecdn.app/500/200">
     <div class="footer-card">
-      <img
-        class="flag"
-        :src="'https://flagsapi.com/' + props.country.code + '/flat/64.png'"
-        alt=""
-      />
+      <img class="flag" :src="'https://flagsapi.com/' + props.country.code + '/flat/64.png'" alt="" />
       <div class="details">
         <p class="country">{{ props.country.name }}</p>
         <p class="continent">{{ props.country.continent.name }}</p>

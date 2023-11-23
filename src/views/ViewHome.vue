@@ -1,6 +1,7 @@
 <script setup>
 import CardComponent from '@/components/CardComponent.vue'
 import InfoComponent from '@/components/InfoComponent.vue'
+import axios from 'axios'
 import { ref, computed } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
@@ -25,6 +26,9 @@ const { result, loading, error } = getCountries()
 const checkedContinent = ref([])
 const openInfoCard = ref(false)
 const nameCountry = ref('')
+
+const currentPage = ref(1)
+const itemsPerPage = ref(10)
 
 const {
   result: resultByContinent,
@@ -64,16 +68,24 @@ const {
 )
 
 const getCountryByContinent = computed(() => {
-  if (checkedContinent.value.length === 0 && nameCountry.value.length === 0) {
-    return result.value.countries
-  } else if (checkedContinent.value.length !== 0 && nameCountry.value.length === 0) {
-    return resultByContinent.value.countries
-  } else if (checkedContinent.value.length === 0 && nameCountry.value.length !== 0) {
-    return resultByName.value.countries
-  } else {
-    const countriesByName = new Set(resultByName.value.countries.map((country) => country.code))
-    return resultByContinent.value.countries.filter((country) => countriesByName.has(country.code))
-  }
+  return [result.value.countries[0]]
+  // if (checkedContinent.value.length === 0 && nameCountry.value.length === 0) {
+  //   return result.value.countries
+  // } else if (checkedContinent.value.length !== 0 && nameCountry.value.length === 0) {
+  //   return resultByContinent.value.countries
+  // } else if (checkedContinent.value.length === 0 && nameCountry.value.length !== 0) {
+  //   return resultByName.value.countries
+  // } else {
+  //   const countriesByName = new Set(resultByName.value.countries.map((country) => country.code))
+  //   return resultByContinent.value.countries.filter((country) => countriesByName.has(country.code))
+  // }
+})
+
+
+const displayedCountries = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  const end = start + itemsPerPage.value
+  return result.value.countries.slice(start, end)
 })
 
 const selectedCountry = ref({})
@@ -82,6 +94,17 @@ function openInfoCardFunction(country) {
   selectedCountry.value = country.code
   openInfoCard.value = !openInfoCard.value
 }
+
+function changePage(delta) {
+  const newPage = currentPage.value + delta
+  if (newPage >= 1 && newPage <= totalPages.value) {
+    currentPage.value = newPage
+  }
+}
+
+const totalPages = computed(() => {
+  return Math.ceil(result.value.countries.length / itemsPerPage.value)
+})
 </script>
 
 <template>
@@ -90,13 +113,7 @@ function openInfoCardFunction(country) {
       <section>
         <div class="input">
           <label for="country">Pais</label>
-          <input
-            type="text"
-            v-model="nameCountry"
-            id="country"
-            name="country"
-            placeholder="Escribe el pais"
-          />
+          <input type="text" v-model="nameCountry" id="country" name="country" placeholder="Escribe el pais" />
         </div>
         <div class="search">
           <button>
@@ -106,6 +123,7 @@ function openInfoCardFunction(country) {
         </div>
       </section>
     </header>
+
     <nav>
       <div class="continent-checkbox">
         <label for="africa">Africa</label>
@@ -136,9 +154,14 @@ function openInfoCardFunction(country) {
         <input id="southAmerica" value="SA" v-model="checkedContinent" type="checkbox" />
       </div>
     </nav>
-    <main v-if="!loading && !loadingByContinent">
+    <section>
+      <button @click="changePage(-1)" :disabled="currentPage === 1">Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button @click="changePage(1)" :disabled="currentPage === totalPages">Siguiente</button>
+    </section>
+    <main v-if="!loading">
       <div class="cards-container">
-        <div v-for="(country, index) in getCountryByContinent" :key="index">
+        <div v-for="(country, index) in displayedCountries" :key="index">
           <CardComponent :country="country" @click="openInfoCardFunction(country)" />
         </div>
       </div>
@@ -147,6 +170,7 @@ function openInfoCardFunction(country) {
     <main v-else>
       <h1>Cargando...</h1>
     </main>
+
   </div>
 </template>
 
@@ -162,7 +186,7 @@ function openInfoCardFunction(country) {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   background-color: #e3f4fe;
 }
 
